@@ -2,10 +2,10 @@
 **Mission:** Create a sample causal model/visualization of an agentic loop for updating firmware
 
 ## Phase 1: Planning & Setup
-- [ ] Define causal variables (firmware state, update trigger, network reliability, device health) and hypothesize relationships in a DAG
+- [x] Define causal variables (firmware state, update trigger, network reliability, device health) and hypothesize relationships in a DAG
 - [x] Set up Python project structure with `src/`, `tests/`, `data/`, and `notebooks/` directories; create `requirements.txt`
 - [x] Install core libraries: `doWhy`, `causalml`, `networkx`, `plotly`, `streamlit`, `pandas`, `numpy`
-- [ ] Design mock data schema for firmware versions, update attempts, failure modes, and outcomes
+- [x] Design mock data schema for firmware versions, update attempts, failure modes, and outcomes
 
 ## Phase 2: Causal Model Development
 - [ ] Implement causal graph using `networkx` with nodes: `Update_Command`, `Network_Stability`, `Device_Resources`, `Update_Success`, `Rollback_Needed`
