@@ -1,29 +1,34 @@
-# Project Template
+# Causal Model for Firmware Update Agent
 
-This is a template for new projects created via `wiggum_master.sh create`.
+A causal inference model and visualization dashboard for an agentic loop that manages firmware updates.
 
-Each project:
-- Lives in `projects/<project-name>/`
-- Has its own GitHub repository
-- Runs its own autonomous OpenCode agent loop
-- Tracks progress in TASKS.md
+## Mission
+
+Create a sample causal model/visualization of an agentic loop for updating firmware. The project uses DoWhy for causal inference and Streamlit for interactive visualization.
 
 ## Setup
 
-1. Create: `bash wiggum_master.sh create "my-project" "Description"`
-2. View: `cat projects/my-project/README.md`
-3. Initialize: `cd projects/my-project && opencode /init --yes`
-4. Run: `cd projects/my-project && bash wiggum.sh`
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-## Files
+# Run the Streamlit dashboard (once implemented)
+streamlit run app.py
+```
 
-- **README.md** - Project documentation
-- **TASKS.md** - Development task list
-- **prompt.txt** - Agent instructions (project-specific)
-- **AGENTS.md** - Project context (auto-generated)
-- **src/** - Source code directory
-- **tests/** - Test files
+## Project Structure
 
-## Customization
+- `src/` - Source code (data generator, causal engine, agent, simulator, visualization)
+- `tests/` - Unit and integration tests
+- `data/` - Synthetic and generated data
+- `notebooks/` - Jupyter notebooks for exploration
+- `app.py` - Streamlit dashboard (to be created)
 
-Update TASKS.md with your project goals, then let the agent handle it!
+## Current Progress
+
+✅ **Task 1 Complete**: Project setup
+- Created directory structure (`src/`, `tests/`, `data/`, `notebooks/`)
+- Created `requirements.txt` with core libraries
+- Installed dependencies: dowhy, causalml, networkx, plotly, streamlit, pandas, numpy
+
+🔜 **Next**: Phase 1 - Define causal variables and design mock data schema

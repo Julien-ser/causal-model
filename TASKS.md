@@ -3,8 +3,8 @@
 
 ## Phase 1: Planning & Setup
 - [ ] Define causal variables (firmware state, update trigger, network reliability, device health) and hypothesize relationships in a DAG
-- [ ] Set up Python project structure with `src/`, `tests/`, `data/`, and `notebooks/` directories; create `requirements.txt`
-- [ ] Install core libraries: `doWhy`, `causalml`, `networkx`, `plotly`, `streamlit`, `pandas`, `numpy`
+- [x] Set up Python project structure with `src/`, `tests/`, `data/`, and `notebooks/` directories; create `requirements.txt`
+- [x] Install core libraries: `doWhy`, `causalml`, `networkx`, `plotly`, `streamlit`, `pandas`, `numpy`
 - [ ] Design mock data schema for firmware versions, update attempts, failure modes, and outcomes
 
 ## Phase 2: Causal Model Development

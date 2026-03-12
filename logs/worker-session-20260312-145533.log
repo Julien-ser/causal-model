@@ -9,3 +9,169 @@
 [0m
 > build · stepfun/step-3.5-flash:free
 [0m
+I'll complete Task 1: Project setup. Let me first explore the current project structure to understand what needs to be done.
+[0m→ [0mRead .
+[0m→ [0mRead README.md
+[0m→ [0mRead TASKS.md
+[0m✱ [0mGlob "package*.json"[90m 0 matches[0m
+[0m✱ [0mGlob "requirements*.txt"[90m 0 matches[0m
+[0m✱ [0mGlob "pyproject.toml"[90m 0 matches[0m
+[0m✱ [0mGlob "setup.py"[90m 0 matches[0m
+[0m
+[0m$ [0mmkdir -p src tests data notebooks
+I understand the project now. It's a causal model/visualization for firmware updates using Python. Task 1 requires:
+1. Create project structure: `src/`, `tests/`, `data/`, `notebooks/` directories
+2. Create `requirements.txt` with the specified libraries
+3. Install the dependencies
+
+Let me set this up:
+[0m
+[0m← [0mWrite requirements.txt
+Wrote file successfully.
+[0m
+[0m$ [0mpip install -r requirements.txt
+Requirement already satisfied: dowhy in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 1)) (0.14)
+Requirement already satisfied: causalml in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 2)) (0.16.0)
+Requirement already satisfied: networkx in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 3)) (3.6.1)
+Requirement already satisfied: plotly in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 4)) (6.6.0)
+Requirement already satisfied: streamlit in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 5)) (1.55.0)
+Requirement already satisfied: pandas in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 6)) (2.3.3)
+Requirement already satisfied: numpy in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 7)) (2.4.3)
+Requirement already satisfied: causal-learn>=0.1.3.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (0.1.4.4)
+Requirement already satisfied: cvxpy<2.0.0,>=1.7.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (1.8.1)
+Requirement already satisfied: cython>=3.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (3.2.4)
+Requirement already satisfied: joblib>=1.1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (1.5.3)
+Requirement already satisfied: numba>=0.59 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (0.64.0)
+Requirement already satisfied: scikit-learn>1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (1.8.0)
+Requirement already satisfied: scipy>=1.15 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (1.17.1)
+Requirement already satisfied: statsmodels>=0.14 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (0.14.6)
+Requirement already satisfied: sympy>=1.10.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (1.14.0)
+Requirement already satisfied: tqdm>=4.64.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from dowhy->-r requirements.txt (line 1)) (4.67.3)
+Requirement already satisfied: osqp>=1.0.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from cvxpy<2.0.0,>=1.7.1->dowhy->-r requirements.txt (line 1)) (1.1.1)
+Requirement already satisfied: clarabel>=0.5.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from cvxpy<2.0.0,>=1.7.1->dowhy->-r requirements.txt (line 1)) (0.11.1)
+Requirement already satisfied: scs>=3.2.4.post1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from cvxpy<2.0.0,>=1.7.1->dowhy->-r requirements.txt (line 1)) (3.2.11)
+Requirement already satisfied: highspy>=1.11.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from cvxpy<2.0.0,>=1.7.1->dowhy->-r requirements.txt (line 1)) (1.13.1)
+Requirement already satisfied: forestci==0.6 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (0.6)
+Requirement already satisfied: pathos==0.2.9 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (0.2.9)
+Requirement already satisfied: matplotlib in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (3.10.8)
+Requirement already satisfied: seaborn in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (0.13.2)
+Requirement already satisfied: xgboost in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (3.2.0)
+Requirement already satisfied: pydotplus in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (2.0.2)
+Requirement already satisfied: shap in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (0.51.0)
+Requirement already satisfied: dill in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (0.4.1)
+Requirement already satisfied: lightgbm in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (4.6.0)
+Requirement already satisfied: packaging in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (26.0)
+Requirement already satisfied: graphviz in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (0.21)
+Requirement already satisfied: black>=26.1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causalml->-r requirements.txt (line 2)) (26.3.1)
+Requirement already satisfied: ppft>=1.7.6.5 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pathos==0.2.9->causalml->-r requirements.txt (line 2)) (1.7.8)
+Requirement already satisfied: pox>=0.3.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pathos==0.2.9->causalml->-r requirements.txt (line 2)) (0.3.7)
+Requirement already satisfied: multiprocess>=0.70.13 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pathos==0.2.9->causalml->-r requirements.txt (line 2)) (0.70.19)
+Requirement already satisfied: narwhals>=1.15.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from plotly->-r requirements.txt (line 4)) (2.18.0)
+Requirement already satisfied: altair!=5.4.0,!=5.4.1,<7,>=4.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (6.0.0)
+Requirement already satisfied: blinker<2,>=1.5.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (1.9.0)
+Requirement already satisfied: cachetools<8,>=5.5 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (7.0.5)
+Requirement already satisfied: click<9,>=7.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (8.3.1)
+Requirement already satisfied: gitpython!=3.1.19,<4,>=3.0.7 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (3.1.46)
+Requirement already satisfied: pillow<13,>=7.1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (12.1.1)
+Requirement already satisfied: pydeck<1,>=0.8.0b4 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (0.9.1)
+Requirement already satisfied: protobuf<7,>=3.20 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (6.33.5)
+Requirement already satisfied: pyarrow>=7.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (23.0.1)
+Requirement already satisfied: requests<3,>=2.27 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (2.32.5)
+Requirement already satisfied: tenacity<10,>=8.1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (9.1.4)
+Requirement already satisfied: toml<2,>=0.10.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (0.10.2)
+Requirement already satisfied: tornado!=6.5.0,<7,>=6.0.3 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (6.5.5)
+Requirement already satisfied: typing-extensions<5,>=4.10.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (4.15.0)
+Requirement already satisfied: watchdog<7,>=2.1.5 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from streamlit->-r requirements.txt (line 5)) (6.0.0)
+Requirement already satisfied: python-dateutil>=2.8.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pandas->-r requirements.txt (line 6)) (2.9.0.post0)
+Requirement already satisfied: pytz>=2020.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pandas->-r requirements.txt (line 6)) (2026.1.post1)
+Requirement already satisfied: tzdata>=2022.7 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pandas->-r requirements.txt (line 6)) (2025.3)
+Requirement already satisfied: jinja2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 5)) (3.1.6)
+Requirement already satisfied: jsonschema>=3.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 5)) (4.26.0)
+Requirement already satisfied: gitdb<5,>=4.0.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 5)) (4.0.12)
+Requirement already satisfied: smmap<6,>=3.0.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 5)) (5.0.3)
+Requirement already satisfied: charset_normalizer<4,>=2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from requests<3,>=2.27->streamlit->-r requirements.txt (line 5)) (3.4.5)
+Requirement already satisfied: idna<4,>=2.5 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from requests<3,>=2.27->streamlit->-r requirements.txt (line 5)) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from requests<3,>=2.27->streamlit->-r requirements.txt (line 5)) (2.6.3)
+Requirement already satisfied: certifi>=2017.4.17 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from requests<3,>=2.27->streamlit->-r requirements.txt (line 5)) (2026.2.25)
+Requirement already satisfied: mypy-extensions>=0.4.3 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from black>=26.1.0->causalml->-r requirements.txt (line 2)) (1.1.0)
+Requirement already satisfied: pathspec>=1.0.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from black>=26.1.0->causalml->-r requirements.txt (line 2)) (1.0.4)
+Requirement already satisfied: platformdirs>=2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from black>=26.1.0->causalml->-r requirements.txt (line 2)) (4.9.4)
+Requirement already satisfied: pytokens~=0.4.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from black>=26.1.0->causalml->-r requirements.txt (line 2)) (0.4.1)
+Requirement already satisfied: pydot in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causal-learn>=0.1.3.0->dowhy->-r requirements.txt (line 1)) (4.0.1)
+Requirement already satisfied: momentchi2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from causal-learn>=0.1.3.0->dowhy->-r requirements.txt (line 1)) (0.1.8)
+Requirement already satisfied: cffi in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from clarabel>=0.5.0->cvxpy<2.0.0,>=1.7.1->dowhy->-r requirements.txt (line 1)) (2.0.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jinja2->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 5)) (3.0.3)
+Requirement already satisfied: attrs>=22.2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 5)) (25.4.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 5)) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 5)) (0.37.0)
+Requirement already satisfied: rpds-py>=0.25.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 5)) (0.30.0)
+Requirement already satisfied: llvmlite<0.47,>=0.46.0dev0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from numba>=0.59->dowhy->-r requirements.txt (line 1)) (0.46.0)
+Requirement already satisfied: setuptools in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from osqp>=1.0.0->cvxpy<2.0.0,>=1.7.1->dowhy->-r requirements.txt (line 1)) (82.0.1)
+Requirement already satisfied: six>=1.5 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from python-dateutil>=2.8.2->pandas->-r requirements.txt (line 6)) (1.17.0)
+Requirement already satisfied: threadpoolctl>=3.2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from scikit-learn>1.0->dowhy->-r requirements.txt (line 1)) (3.6.0)
+Requirement already satisfied: patsy>=0.5.6 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from statsmodels>=0.14->dowhy->-r requirements.txt (line 1)) (1.0.2)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from sympy>=1.10.1->dowhy->-r requirements.txt (line 1)) (1.3.0)
+Requirement already satisfied: pycparser in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from cffi->clarabel>=0.5.0->cvxpy<2.0.0,>=1.7.1->dowhy->-r requirements.txt (line 1)) (3.0)
+Requirement already satisfied: contourpy>=1.0.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from matplotlib->causalml->-r requirements.txt (line 2)) (1.3.3)
+Requirement already satisfied: cycler>=0.10 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from matplotlib->causalml->-r requirements.txt (line 2)) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from matplotlib->causalml->-r requirements.txt (line 2)) (4.62.0)
+Requirement already satisfied: kiwisolver>=1.3.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from matplotlib->causalml->-r requirements.txt (line 2)) (1.5.0)
+Requirement already satisfied: pyparsing>=3 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from matplotlib->causalml->-r requirements.txt (line 2)) (3.3.2)
+Requirement already satisfied: slicer==0.0.8 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from shap->causalml->-r requirements.txt (line 2)) (0.0.8)
+Requirement already satisfied: cloudpickle in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from shap->causalml->-r requirements.txt (line 2)) (3.1.2)
+Requirement already satisfied: nvidia-nccl-cu12 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from xgboost->causalml->-r requirements.txt (line 2)) (2.29.7)
+
+[notice] A new release of pip is available: 25.3 -> 26.0.1
+[notice] To update, run: pip install --upgrade pip
+[0m
+Dependencies are installed. Now I'll mark Task 1 as complete in TASKS.md and update the README:
+[0m← [0mEdit TASKS.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/TASKS.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/TASKS.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/TASKS.md
+@@ -1,12 +1,10 @@
+ # causal-model
+ **Mission:** Create a sample causal model/visualization of an agentic loop for updating firmware
+ 
+ ## Phase 1: Planning & Setup
++- [x] Task 1: Project setup (initialize directories, install dependencies)
+ - [ ] Define causal variables (firmware state, update trigger, network reliability, device health) and hypothesize relationships in a DAG
+-- [ ] Set up Python project structure with `src/`, `tests/`, `data/`, and `notebooks/` directories; create `requirements.txt`
+-- [ ] Install core libraries: `doWhy`, `causalml`, `networkx`, `plotly`, `streamlit`, `pandas`, `numpy`
+-- [ ] Design mock data schema for firmware versions, update attempts, failure modes, and outcomes
+ 
+ ## Phase 2: Causal Model Development
+ - [ ] Implement causal graph using `networkx` with nodes: `Update_Command`, `Network_Stability`, `Device_Resources`, `Update_Success`, `Rollback_Needed`
+ - [ ] Create synthetic data generator in `src/data_generator.py` that simulates 1000 firmware update attempts with confounding variables
+
+[0m
+I made an error - I removed other Phase 1 tasks. Let me fix the TASKS.md file properly:
+[0m← [0mEdit TASKS.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/TASKS.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/TASKS.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/TASKS.md
+@@ -1,10 +1,12 @@
+ # causal-model
+ **Mission:** Create a sample causal model/visualization of an agentic loop for updating firmware
+ 
+ ## Phase 1: Planning & Setup
+-- [x] Task 1: Project setup (initialize directories, install dependencies)
+ - [ ] Define causal variables (firmware state, update trigger, network reliability, device health) and hypothesize relationships in a DAG
++- [x] Set up Python project structure with `src/`, `tests/`, `data/`, and `notebooks/` directories; create `requirements.txt`
++- [x] Install core libraries: `doWhy`, `causalml`, `networkx`, `plotly`, `streamlit`, `pandas`, `numpy`
++- [ ] Design mock data schema for firmware versions, update attempts, failure modes, and outcomes
+ 
+ ## Phase 2: Causal Model Development
+ - [ ] Implement causal graph using `networkx` with nodes: `Update_Command`, `Network_Stability`, `Device_Resources`, `Update_Success`, `Rollback_Needed`
+ - [ ] Create synthetic data generator in `src/data_generator.py` that simulates 1000 firmware update attempts with confounding variables
+
+[0m
+[0m← [0mWrite README.md
+Wrote file successfully.
+[0m
+Now let me update the README.md to be project-specific:
+Task 1 complete. Project structure created, dependencies installed, TASKS.md and README.md updated.
+📝 Log saved: logs/iteration-1.md
+📊 Token Usage: 6500 / Session: 6500 / 64000
