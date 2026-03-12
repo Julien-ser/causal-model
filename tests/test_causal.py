@@ -44,8 +44,8 @@ class TestCausalInferenceEngine:
         assert model is not None
         assert engine.model is not None
         # Check that treatment and outcome are set correctly
-        assert engine.model._treatment == "Update_Command"
-        assert engine.model._outcome == "Update_Success"
+        assert engine.model._treatment == ["Update_Command"]
+        assert engine.model._outcome == ["Update_Success"]
 
     def test_identify_effect(self, engine):
         """Test effect identification produces an estimand."""

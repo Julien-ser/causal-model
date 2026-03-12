@@ -11,7 +11,7 @@ import numpy as np
 import networkx as nx
 from typing import Dict, Tuple, Optional
 from dowhy import CausalModel
-from dowhy.causal_identifier import BackdoorAdjustmentStrategy
+from dowhy.causal_identifier import IdentifiedEstimand
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -57,19 +57,14 @@ class CausalInferenceEngine:
         Returns:
             Configured CausalModel instance
         """
-        # Convert NetworkX graph to DOT string for DoWhy
-        graph_str = ""
-        for edge in self.graph.edges():
-            graph_str += f"{edge[0]}->{edge[1]}; "
-
-        # Create DoWhy model
+        # Create DoWhy model using NetworkX graph directly
         self.model = CausalModel(
-            data=self.data, treatment=treatment, outcome=outcome, graph=graph_str
+            data=self.data, treatment=treatment, outcome=outcome, graph=self.graph
         )
 
         return self.model
 
-    def identify_effect(self, method: str = "backdoor") -> BackdoorAdjustmentStrategy:
+    def identify_effect(self, method: str = "backdoor") -> IdentifiedEstimand:
         """
         Identify causal effect using backdoor criterion.
 
@@ -212,6 +207,7 @@ class CausalInferenceEngine:
         treatment: str = "Update_Command",
         outcome: str = "Update_Success",
         estimation_methods: list = None,
+        method: str = None,
     ) -> Dict:
         """
         Run complete causal analysis pipeline.
@@ -220,10 +216,13 @@ class CausalInferenceEngine:
             treatment: Treatment variable name
             outcome: Outcome variable name
             estimation_methods: List of estimation methods to try
+            method: Single estimation method (convenience parameter)
 
         Returns:
             Dictionary with all results
         """
+        if method is not None:
+            estimation_methods = [method]
         if estimation_methods is None:
             estimation_methods = ["linear_regression", "propensity_score_matching"]
 
