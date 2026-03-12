@@ -184,3 +184,71 @@ Let me create a visual ASCII diagram of the DAG structure for documentation:
 Wrote file successfully.
 [0m
 [0m→ [0mRead TASKS.md
+[0m→ [0mRead .gitignore
+Now I'll stage and commit the changes:
+[0m
+[0m$ [0mgit add -A && git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   logs/iteration-2.md
+	new file:   logs/iteration-4.md
+	modified:   logs/worker-session-20260312-145533.log
+	modified:   logs/worker-session-20260312-145541.log
+[0m
+Let me check the overall git status to understand what's happening:
+[0m$ [0mgit status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   logs/iteration-2.md
+	new file:   logs/iteration-4.md
+	modified:   logs/worker-session-20260312-145533.log
+	modified:   logs/worker-session-20260312-145541.log
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   logs/iteration-2.md
+	modified:   logs/iteration-4.md
+	modified:   logs/worker-session-20260312-145533.log
+	modified:   logs/worker-session-20260312-145541.log
+[0m
+[0m$ [0mls -la src/ tests/ && git status --porcelain src/causal_graph.py tests/test_causal_graph.py README.md TASKS.md
+src/:
+total 24
+drwxr-xr-x  3 julien julien 4096 Mar 12 14:57 .
+drwxr-xr-x 10 julien julien 4096 Mar 12 14:57 ..
+-rw-r--r--  1 julien julien 5514 Mar 12 14:56 causal_graph.py
+-rw-r--r--  1 julien julien  402 Mar 12 14:57 __init__.py
+drwxr-xr-x  2 julien julien 4096 Mar 12 14:57 __pycache__
+
+tests/:
+total 20
+drwxr-xr-x  3 julien julien 4096 Mar 12 14:57 .
+drwxr-xr-x 10 julien julien 4096 Mar 12 14:57 ..
+drwxr-xr-x  2 julien julien 4096 Mar 12 14:57 __pycache__
+-rw-r--r--  1 julien julien 4145 Mar 12 14:56 test_causal_graph.py
+[0m
+Let me verify the files exist on disk and check their git status individually:
+[0m$ [0mgit status .
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   logs/iteration-2.md
+	new file:   logs/iteration-4.md
+	modified:   logs/worker-session-20260312-145533.log
+	modified:   logs/worker-session-20260312-145541.log
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   logs/iteration-2.md
+	modified:   logs/iteration-4.md
+	modified:   logs/worker-session-20260312-145533.log
+	modified:   logs/worker-session-20260312-145541.log
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	src/data_generator.py
+[0m
