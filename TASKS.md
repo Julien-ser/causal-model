@@ -10,8 +10,8 @@
 ## Phase 2: Causal Model Development
 - [x] Implement causal graph using `networkx` with nodes: `Update_Command`, `Network_Stability`, `Device_Resources`, `Update_Success`, `Rollback_Needed`
 - [x] Create synthetic data generator in `src/data_generator.py` that simulates 1000 firmware update attempts with confounding variables
-- [ ] Build causal inference engine in `src/causal_engine.py` using DoWhy to identify causal effect of `Update_Command` on `Update_Success`
-- [ ] Write unit tests in `tests/test_causal.py` validating backdoor criteria and effect estimation
+- [x] Build causal inference engine in `src/causal_engine.py` using DoWhy to identify causal effect of `Update_Command` on `Update_Success``
+- [x] Write unit tests in `tests/test_causal.py` validating backdoor criteria and effect estimation
 
 ## Phase 3: Agentic Loop Implementation
 - [ ] Design agent architecture with perception (observe device state), reasoning (apply causal model), and action (decide update/rollback) modules

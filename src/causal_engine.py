@@ -103,7 +103,7 @@ class CausalInferenceEngine:
     def estimate_ate(
         self,
         method: str = "linear_regression",
-        confidence_intervals: bool = True,
+        confidence_intervals: bool = False,
         **kwargs,
     ) -> Dict:
         """
@@ -176,7 +176,16 @@ class CausalInferenceEngine:
         """
         if self.backdoor_adjustment_set is None:
             self.identify_effect()
-        return self.backdoor_adjustment_set if self.backdoor_adjustment_set else []
+        if isinstance(self.backdoor_adjustment_set, dict):
+            # Combine all sets into one list of unique variables
+            all_vars = set()
+            for val in self.backdoor_adjustment_set.values():
+                all_vars.update(val)
+            return sorted(all_vars)
+        elif isinstance(self.backdoor_adjustment_set, (list, set)):
+            return list(self.backdoor_adjustment_set)
+        else:
+            return []
 
     def validate_backdoor_criterion(
         self, treatment: str = "Update_Command", outcome: str = "Update_Success"

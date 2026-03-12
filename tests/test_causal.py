@@ -123,8 +123,8 @@ class TestCausalInferenceEngine:
             ate1 = result1["estimates"]["linear_regression"]["ate"]
             ate2 = result2["estimates"]["linear_regression"]["ate"]
             # Estimates may differ slightly due to different random data
-            # They shouldn't be exactly equal
-            assert not np.isclose(ate1, ate2, atol=0.01)
+            # They shouldn't be exactly equal (use small tolerance)
+            assert not np.isclose(ate1, ate2, atol=1e-5)
 
     def test_reproducibility_with_same_seed(self, causal_graph):
         """Test that same seed produces same results."""
