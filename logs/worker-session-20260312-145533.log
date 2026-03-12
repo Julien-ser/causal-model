@@ -1,0 +1,11 @@
+🚀 Starting Wiggum Worker for: causal-model
+📍 Project Path: /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model
+⏰ Started at: Thu Mar 12 02:55:33 PM EDT 2026
+⚡ Token Budget: 64000
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━════
+
+📍 Iteration 1 at Thu Mar 12 02:55:33 PM EDT 2026...
+🤖 OpenCode processing: Task 1: Project setup (initialize directories, install dependencies)
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
