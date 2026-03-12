@@ -36,6 +36,8 @@ class Simulator:
             "agent_success": 0,
             "agent_updates": 0,
             "always_update_success": 0,
+            "rollback_count": 0,
+            "always_rollback_count": 0,
             "details": [],
         }
         for _ in range(self.n_episodes):
@@ -57,11 +59,18 @@ class Simulator:
                 firmware_version=arrays["Firmware_Version"],
                 device_config=arrays["Device_Configuration"],
             )[0]
-            # Update agent metrics
+            # Determine rollback based on true DGP
+            rollback = self.dg._generate_rollback_needed(
+                update_success=np.array([success]),
+                network_stability=arrays["Network_Stability"],
+            )[0]
+            # Record agent outcome
             if action == "update" and success == 1:
                 results["agent_success"] += 1
             if action == "update":
                 results["agent_updates"] += 1
+                if rollback:
+                    results["rollback_count"] += 1
             # Always update baseline (for comparison)
             always_success = self.dg._generate_update_success(
                 update_cmd=np.array([1]),
@@ -72,6 +81,13 @@ class Simulator:
                 device_config=arrays["Device_Configuration"],
             )[0]
             results["always_update_success"] += always_success
+            # Also compute rollback for always update (for comparison)
+            always_rollback = self.dg._generate_rollback_needed(
+                update_success=np.array([always_success]),
+                network_stability=arrays["Network_Stability"],
+            )[0]
+            if always_rollback:
+                results["always_rollback_count"] += 1
             # Record details
             results["details"].append(
                 {"state": state, "action": action, "success": success}
@@ -82,4 +98,12 @@ class Simulator:
         results["never_update_success_rate"] = (
             0.0  # never update always yields 0 success
         )
+        results["agent_rollback_rate"] = (
+            results["rollback_count"] / results["agent_updates"]
+            if results["agent_updates"] > 0
+            else 0.0
+        )
+        results["always_rollback_rate"] = (
+            results["always_rollback_count"] / total
+        )  # baseline always update episodes that required rollback
         return results

@@ -89,24 +89,39 @@ streamlit run app.py
 
 - `src/` - Source code (data generator, causal engine, agent, simulator, visualization)
 - `tests/` - Unit and integration tests
-- `data/` - Synthetic and generated data
-- `notebooks/` - Jupyter notebooks for exploration
-- `app.py` - Streamlit dashboard (to be created)
+- `app.py` - Streamlit dashboard
+- `docker-compose.yml` - Docker deployment configuration
+- `README.md` - This file
 
-## Current Progress
+## Progress
 
-✅ **Phase 1 Complete** - Planning & Setup
-- ✅ Task 1: Defined causal variables and designed DAG with hypothesized relationships
-- ✅ Task 2: Set up Python project structure (src/, tests/, data/, notebooks/)
-- ✅ Task 3: Created requirements.txt with core libraries (doWhy, causalml, networkx, plotly, streamlit, pandas, numpy)
-- ✅ Task 4: Designed mock data schema (see data/SCHEMA.md)
+- ✅ **Phase 1** - Planning & Setup (complete)
+- ✅ **Phase 2** - Causal Model Development (complete)
+  - Causal graph (`src/causal_graph.py`) implemented with 10 nodes and 12 edges
+  - Synthetic data generator (`src/data_generator.py`) creates realistic data respecting DAG
+  - Causal inference engine (`src/causal_engine.py`) built with DoWhy
+  - Comprehensive unit tests (`tests/test_causal.py`) passing (15 tests)
+- ✅ **Phase 3** - Agentic Loop Implementation (complete)
+  - `Agent` class (`src/agent.py`) with perception, reasoning, action modules
+  - Policy function maps predicted success probability to update decision (threshold)
+  - `Simulator` (`src/simulator.py`) runs 100 decisions and tracks outcomes vs. baselines
+- 🔄 **Phase 4** - Visualization & Dashboard (complete)
+  - Causal graph visualization (`src/visualization.py`) with Plotly
+  - Streamlit dashboard (`app.py`) with three tabs: Causal Graph, Agent Performance, Scenario Simulator
+  - Real-time metrics panel: agent win rate, false positives, rollback frequency
+  - Interactive scenario simulator
+  - This README and `docker-compose.yml`
 
-🔄 **Phase 2 In Progress** - Causal Model Development
-- ✅ Implement causal graph using networkx with required nodes
-- ✅ Create synthetic data generator (`src/data_generator.py`)
-  - Generates 1000 realistic firmware update attempts
-  - Respects causal DAG structure with confounders
-  - Includes both observational and interventional data generation
-  - Comprehensive unit tests (17 tests passing)
-- ⏳ Build causal inference engine
-- ⏳ Write unit tests for backdoor criteria and effect estimation
+## Running the Dashboard
+
+1. Install dependencies: `pip install -r requirements.txt`
+2. Run: `streamlit run app.py`
+3. Open `http://localhost:8501` in your browser.
+
+Or with Docker Compose: `docker-compose up --build` then open `http://localhost:8501`.
+
+## Example Scenarios
+
+- **High-probability update**: Device with good network stability, ample resources, good health, and recent firmware → agent predicts high success probability and recommends update.
+- **Low-probability update**: Device with poor network, low resources, poor health, and old firmware → agent advises against update.
+- **Baseline comparison**: The dashboard shows how the agent compares to always-updating or never-updating baselines, accounting for rollback costs.

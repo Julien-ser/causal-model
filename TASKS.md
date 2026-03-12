@@ -20,7 +20,7 @@
 - [x] Build simulation loop in `src/simulator.py` that runs 100 agent decisions and tracks outcomes vs. baseline
 
 ## Phase 4: Visualization & Dashboard
-- [ ] Build causal graph visualization with `plotly` showing DAG with effect sizes and confidence intervals in `src/visualization.py`
-- [ ] Create interactive Streamlit dashboard in `app.py` with tabs: Causal Graph, Agent Performance, Scenario Simulator
-- [ ] Implement real-time metrics panel showing agent win rate, false positives, and rollback frequency
-- [ ] Write `README.md` with setup instructions, causal assumptions, and example scenarios; add `docker-compose.yml` for one-command deployment
+- [x] Build causal graph visualization with `plotly` showing DAG with effect sizes and confidence intervals in `src/visualization.py`
+- [x] Create interactive Streamlit dashboard in `app.py` with tabs: Causal Graph, Agent Performance, Scenario Simulator
+- [x] Implement real-time metrics panel showing agent win rate, false positives, and rollback frequency
+- [x] Write `README.md` with setup instructions, causal assumptions, and example scenarios; add `docker-compose.yml` for one-command deployment
