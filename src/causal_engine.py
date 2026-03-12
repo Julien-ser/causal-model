@@ -13,6 +13,8 @@ from typing import Dict, Tuple, Optional
 from dowhy import CausalModel
 from dowhy.causal_identifier import IdentifiedEstimand
 import warnings
+import io
+from networkx.drawing.nx_pydot import write_dot
 
 warnings.filterwarnings("ignore")
 
@@ -44,6 +46,12 @@ class CausalInferenceEngine:
         self.estimate_result = None
         self.backdoor_adjustment_set = None
 
+    def _graph_to_dot(self, graph: nx.DiGraph) -> str:
+        """Convert NetworkX graph to DOT string for DoWhy."""
+        buf = io.StringIO()
+        write_dot(graph, buf)
+        return buf.getvalue()
+
     def build_model(
         self, treatment: str = "Update_Command", outcome: str = "Update_Success"
     ) -> CausalModel:
@@ -57,9 +65,12 @@ class CausalInferenceEngine:
         Returns:
             Configured CausalModel instance
         """
-        # Create DoWhy model using NetworkX graph directly
+        # Convert NetworkX graph to DOT string format
+        graph_dot = self._graph_to_dot(self.graph)
+
+        # Create DoWhy model using DOT graph
         self.model = CausalModel(
-            data=self.data, treatment=treatment, outcome=outcome, graph=self.graph
+            data=self.data, treatment=treatment, outcome=outcome, graph=graph_dot
         )
 
         return self.model
@@ -224,7 +235,8 @@ class CausalInferenceEngine:
         if method is not None:
             estimation_methods = [method]
         if estimation_methods is None:
-            estimation_methods = ["linear_regression", "propensity_score_matching"]
+            # Default to fast methods only; propensity score methods can be very slow
+            estimation_methods = ["linear_regression"]
 
         # Build model
         self.build_model(treatment, outcome)
