@@ -401,3 +401,11 @@ Ready for next iteration.
 ```
 
 **Completed at:** Thu Mar 12 02:57:13 PM EDT 2026
+[0m$ [0mpython -c "from src import create_causal_graph; G = create_causal_graph(); print(f'Package import works: {G.number_of_nodes()} nodes')"
+Package import works: 10 nodes
+[0m
+Let me create a visual ASCII diagram of the DAG structure for documentation:
+[0m← [0mWrite DAG_STRUCTURE.md
+Wrote file successfully.
+[0m
+[0m→ [0mRead TASKS.md

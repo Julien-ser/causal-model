@@ -8,7 +8,7 @@
 - [x] Design mock data schema for firmware versions, update attempts, failure modes, and outcomes
 
 ## Phase 2: Causal Model Development
-- [ ] Implement causal graph using `networkx` with nodes: `Update_Command`, `Network_Stability`, `Device_Resources`, `Update_Success`, `Rollback_Needed`
+- [x] Implement causal graph using `networkx` with nodes: `Update_Command`, `Network_Stability`, `Device_Resources`, `Update_Success`, `Rollback_Needed`
 - [ ] Create synthetic data generator in `src/data_generator.py` that simulates 1000 firmware update attempts with confounding variables
 - [ ] Build causal inference engine in `src/causal_engine.py` using DoWhy to identify causal effect of `Update_Command` on `Update_Success`
 - [ ] Write unit tests in `tests/test_causal.py` validating backdoor criteria and effect estimation

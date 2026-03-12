@@ -58,7 +58,7 @@ streamlit run app.py
 - ✅ Task 4: Designed mock data schema (see data/SCHEMA.md)
 
 🔄 **Phase 2 In Progress** - Causal Model Development
-- ⏳ Implement causal graph using networkx
+- ✅ Implement causal graph using networkx with required nodes
 - ⏳ Create synthetic data generator
 - ⏳ Build causal inference engine
 - ⏳ Write unit tests
