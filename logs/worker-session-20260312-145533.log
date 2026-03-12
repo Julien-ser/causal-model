@@ -1093,3 +1093,96 @@ The data produces realistic causal relationships:
 The project is ready for the next task: building the causal inference engine with DoWhy.
 📝 Log saved: logs/iteration-5.md
 📊 Token Usage: 9000 / Session: 26250 / 64000
+✅ Changes committed
+To https://github.com/Julien-ser/causal-model.git
+   2ad2aba..32dcd54  main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 6/16 completed, 10 remaining
+   Next task: Build causal inference engine in `src/causal_engine.py` usin...
+📍 Iteration 6 at Thu Mar 12 03:02:23 PM EDT 2026...
+🤖 OpenCode processing: Build causal inference engine in `src/causal_engine.py` using DoWhy to identify causal effect of `Update_Command` on `Update_Success`
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+I'll help you build the causal inference engine. Let me first explore the existing codebase to understand the structure and then implement the required functionality.
+[0m→ [0mRead TASKS.md
+[0m→ [0mRead src/data_generator.py
+[0m✱ [0mGlob "src/*.py"[90m 3 matches[0m
+[0m✱ [0mGlob "tests/*.py"[90m 2 matches[0m
+[0m→ [0mRead src/causal_graph.py
+[0m→ [0mRead tests/test_causal_graph.py
+[0m→ [0mRead requirements.txt
+Now I'll create the causal inference engine using DoWhy:
+[0m
+[0m← [0mWrite src/causal_engine.py
+Wrote file successfully.
+[0m
+[0m✗ [0medit failed
+[91m[1mError: [0mCould not find oldString in the file. It must match exactly, including whitespace, indentation, and line endings.
+I need to fix the import for networkx:
+[0m→ [0mRead src/causal_engine.py[90m [limit=20][0m
+[0m
+[0m← [0mEdit src/causal_engine.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/src/causal_engine.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/src/causal_engine.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/src/causal_engine.py
+@@ -7,8 +7,9 @@
+ """
+ 
+ import pandas as pd
+ import numpy as np
++import networkx as nx
+ from typing import Dict, Tuple, Optional
+ from dowhy import CausalModel
+ from dowhy.causal_identifier import BackdoorAdjustmentStrategy
+ import warnings
+
+[0m
+Now I'll create comprehensive unit tests for the causal inference engine:
+[0m← [0mWrite tests/test_causal.py
+Wrote file successfully.
+[0m
+Now let me install dependencies and run the tests to verify everything works:
+[0m$ [0mpip install -q dowhy causalml networkx plotly streamlit pandas numpy pytest 2>&1 | tail -20
+[notice] A new release of pip is available: 25.3 -> 26.0.1
+[notice] To update, run: pip install --upgrade pip
+[0m
+Let's run the tests:
+[0m$ [0mpytest tests/test_causal.py -v
+============================= test session starts ==============================
+platform linux -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /home/julien/Desktop/Free-Wiggum-opencode/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model
+plugins: langsmith-0.7.16, anyio-4.12.1, dash-4.0.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+____________________ ERROR collecting tests/test_causal.py _____________________
+ImportError while importing test module '/home/julien/Desktop/Free-Wiggum-opencode/projects/causal-model/tests/test_causal.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_causal.py:11: in <module>
+    from src.causal_graph import create_causal_graph
+E   ModuleNotFoundError: No module named 'src'
+=========================== short test summary info ============================
+ERROR tests/test_causal.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.89s ===============================
+[0m
+[0m$ [0mls -la src/
+total 48
+drwxr-xr-x  3 julien julien  4096 Mar 12 15:02 .
+drwxr-xr-x 10 julien julien  4096 Mar 12 14:57 ..
+-rw-r--r--  1 julien julien  8372 Mar 12 15:03 causal_engine.py
+-rw-r--r--  1 julien julien  5514 Mar 12 14:56 causal_graph.py
+-rw-r--r--  1 julien julien 11713 Mar 12 14:59 data_generator.py
+-rw-r--r--  1 julien julien   654 Mar 12 15:01 __init__.py
+drwxr-xr-x  2 julien julien  4096 Mar 12 15:02 __pycache__
+[0m
+Let me check the src directory structure:
+📝 Log saved: logs/iteration-6.md
+📊 Token Usage: 2750 / Session: 29000 / 64000
