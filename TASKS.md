@@ -14,10 +14,10 @@
 - [x] Write unit tests in `tests/test_causal.py` validating backdoor criteria and effect estimation
 
 ## Phase 3: Agentic Loop Implementation
-- [ ] Design agent architecture with perception (observe device state), reasoning (apply causal model), and action (decide update/rollback) modules
-- [ ] Implement `Agent` class in `src/agent.py` that observes current firmware state and uses causal effects to recommend action
-- [ ] Create policy function that maps predicted success probability to update decision threshold
-- [ ] Build simulation loop in `src/simulator.py` that runs 100 agent decisions and tracks outcomes vs. baseline
+- [x] Design agent architecture with perception (observe device state), reasoning (apply causal model), and action (decide update/rollback) modules
+- [x] Implement `Agent` class in `src/agent.py` that observes current firmware state and uses causal effects to recommend action
+- [x] Create policy function that maps predicted success probability to update decision threshold
+- [x] Build simulation loop in `src/simulator.py` that runs 100 agent decisions and tracks outcomes vs. baseline
 
 ## Phase 4: Visualization & Dashboard
 - [ ] Build causal graph visualization with `plotly` showing DAG with effect sizes and confidence intervals in `src/visualization.py`
