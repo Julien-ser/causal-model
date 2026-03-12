@@ -31,6 +31,50 @@ The causal graph includes these variables:
 
 See `src/causal_graph.py` for complete definition.
 
+## Synthetic Data Generation
+
+The project includes a comprehensive synthetic data generator (`src/data_generator.py`) that simulates realistic firmware update scenarios.
+
+### Features
+
+- Generates 1000+ firmware update attempts with realistic confounding variables
+- Respects causal DAG structure: treatment affects outcome, confounders influence both
+- Categorical variables: `Update_Trigger` (manual/auto/emergency), `Firmware_Version` (v1.0-v3.0), `Device_Configuration` (low/medium/high)
+- Continuous variables: `Network_Stability`, `Device_Resources`, `Device_Health` (0-1 scores)
+- Binary outcomes: `Update_Command` (treatment), `Update_Success` (outcome), `Rollback_Needed`
+- Continuous outcome: `Device_Downtime` (seconds)
+
+### Usage
+
+```python
+from src.data_generator import generate_data, DataGenerator
+
+# Quick generation
+data = generate_data(n_samples=1000, random_seed=42)
+
+# Custom configuration
+config = DataGeneratorConfig(
+    n_samples=2000,
+    network_stability_mean=0.7,
+    treatment_effect_size=0.25
+)
+generator = DataGenerator(config)
+data = generator.generate()
+
+# Generate interventional data (set all devices to receive update command)
+interventional_data = generator.generate_interventional_data(treatment_value=1)
+```
+
+### Testing
+
+The data generator includes 17 comprehensive unit tests covering:
+- Data structure and variable types
+- Causal relationships (e.g., older firmware → more updates)
+- Effect sizes (e.g., better network → higher success rate)
+- Reproducibility with random seeds
+
+Run tests: `pytest tests/test_data_generator.py -v`
+
 ## Setup
 
 ```bash
@@ -59,6 +103,10 @@ streamlit run app.py
 
 🔄 **Phase 2 In Progress** - Causal Model Development
 - ✅ Implement causal graph using networkx with required nodes
-- ⏳ Create synthetic data generator
+- ✅ Create synthetic data generator (`src/data_generator.py`)
+  - Generates 1000 realistic firmware update attempts
+  - Respects causal DAG structure with confounders
+  - Includes both observational and interventional data generation
+  - Comprehensive unit tests (17 tests passing)
 - ⏳ Build causal inference engine
-- ⏳ Write unit tests
+- ⏳ Write unit tests for backdoor criteria and effect estimation

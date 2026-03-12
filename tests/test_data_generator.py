@@ -55,17 +55,25 @@ class TestDataGenerator:
         """Test that continuous variables are within expected ranges."""
         df = generate_data(n_samples=100)
 
-        # These variables should be between 0 and 1
+        # These variables should be between 0 and 1 (continuous)
         continuous_vars = [
             "Network_Stability",
             "Device_Resources",
             "Device_Health",
-            "Firmware_Version",
-            "Device_Configuration",
         ]
         for var in continuous_vars:
             assert df[var].min() >= 0, f"{var} should be >= 0"
             assert df[var].max() <= 1, f"{var} should be <= 1"
+
+        # These variables should be categorical strings
+        categorical_vars = [
+            "Update_Trigger",
+            "Firmware_Version",
+            "Device_Configuration",
+        ]
+        for var in categorical_vars:
+            assert df[var].dtype == object, f"{var} should be object/categorical type"
+            assert df[var].notnull().all(), f"{var} should have no nulls"
 
     def test_downtime_is_positive(self):
         """Test that Device_Downtime is positive."""
@@ -83,24 +91,28 @@ class TestDataGenerator:
     def test_update_command_correlation_with_trigger(self):
         """Test that Update_Command correlates with Update_Trigger."""
         df = generate_data(n_samples=1000)
-        # Emergency triggers (2) should have higher command rate
-        emergency_rate = df[df["Update_Trigger"] == 2]["Update_Command"].mean()
-        manual_rate = df[df["Update_Trigger"] == 0]["Update_Command"].mean()
-        auto_rate = df[df["Update_Trigger"] == 1]["Update_Command"].mean()
+        # Emergency triggers should have higher command rate
+        emergency_rate = df[df["Update_Trigger"] == "emergency"][
+            "Update_Command"
+        ].mean()
+        manual_rate = df[df["Update_Trigger"] == "manual"]["Update_Command"].mean()
+        auto_rate = df[df["Update_Trigger"] == "auto"]["Update_Command"].mean()
 
         assert emergency_rate > manual_rate > auto_rate, (
             f"Trigger correlation: emergency={emergency_rate:.2f}, manual={manual_rate:.2f}, auto={auto_rate:.2f}"
         )
 
     def test_update_command_correlation_with_firmware(self):
-        """Test that older firmware (lower version) correlates with more update commands."""
+        """Test that older firmware correlates with more update commands."""
         df = generate_data(n_samples=1000)
-        # Split by firmware version (median)
-        median_version = df["Firmware_Version"].median()
-        old_firmware = df[df["Firmware_Version"] <= median_version][
+        # Define old vs new firmware versions
+        old_versions = ["v1.0", "v1.5", "v2.0"]
+        new_versions = ["v2.5", "v3.0"]
+
+        old_firmware = df[df["Firmware_Version"].isin(old_versions)][
             "Update_Command"
         ].mean()
-        new_firmware = df[df["Firmware_Version"] > median_version][
+        new_firmware = df[df["Firmware_Version"].isin(new_versions)][
             "Update_Command"
         ].mean()
 

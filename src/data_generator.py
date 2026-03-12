@@ -78,10 +78,13 @@ class DataGenerator:
         """Generate independent exogenous variables."""
         data = {}
 
-        # Update_Trigger: categorical (0=manual, 1=automatic, 2=emergency)
+        # Update_Trigger: categorical with string labels
         # Manual updates are most common, automatic less so, emergency rare
+        trigger_options = ["manual", "auto", "emergency"]
         trigger_probs = [0.6, 0.3, 0.1]
-        data["Update_Trigger"] = self.rng.choice([0, 1, 2], size=n, p=trigger_probs)
+        data["Update_Trigger"] = self.rng.choice(
+            trigger_options, size=n, p=trigger_probs
+        )
 
         # Network_Stability: continuous 0-1, beta distribution (skewed toward good)
         data["Network_Stability"] = self.rng.beta(2, 1, size=n)
@@ -92,12 +95,18 @@ class DataGenerator:
         # Device_Health: continuous 0-1, beta distribution (usually good, sometimes poor)
         data["Device_Health"] = self.rng.beta(5, 2, size=n)
 
-        # Firmware_Version: continuous, normalized 0-1 (older = lower number)
+        # Firmware_Version: categorical with realistic version strings
         # Assume devices with older firmware are less common (more have recent versions)
-        data["Firmware_Version"] = self.rng.beta(2, 3, size=n)
+        fw_options = ["v1.0", "v1.5", "v2.0", "v2.5", "v3.0"]
+        fw_probs = [0.05, 0.15, 0.3, 0.3, 0.2]
+        data["Firmware_Version"] = self.rng.choice(fw_options, size=n, p=fw_probs)
 
-        # Device_Configuration: continuous 0-1, uniform (varied)
-        data["Device_Configuration"] = self.rng.uniform(0, 1, size=n)
+        # Device_Configuration: categorical (risk level)
+        config_options = ["low", "medium", "high"]
+        config_probs = [0.4, 0.4, 0.2]
+        data["Device_Configuration"] = self.rng.choice(
+            config_options, size=n, p=config_probs
+        )
 
         return data
 
@@ -115,22 +124,44 @@ class DataGenerator:
         - Firmware_Version: older firmware more likely to need updates
         - Device_Configuration: certain configurations may inhibit updates
         """
-        logits = np.zeros(len(trigger))
+        n = len(trigger)
+        logits = np.zeros(n)
 
-        # Effect of Update_Trigger
-        # Emergency (2): high probability of update
-        # Manual (0): moderate probability
-        # Automatic (1): lower probability
-        logits += np.where(trigger == 2, 2.5, np.where(trigger == 0, 1.0, -0.5))
+        # Effect of Update_Trigger (string values)
+        trigger_effect = np.zeros(n)
+        for i, t in enumerate(trigger):
+            if t == "emergency":
+                trigger_effect[i] = 2.5
+            elif t == "manual":
+                trigger_effect[i] = 1.0
+            else:  # auto
+                trigger_effect[i] = -0.5
+        logits += trigger_effect
 
         # Effect of Firmware_Version (older firmware = more likely to update)
-        logits += (1 - firmware_version) * 2.0
+        fw_effect = np.zeros(n)
+        for i, fw in enumerate(firmware_version):
+            if fw in ["v1.0", "v1.5"]:
+                fw_effect[i] = 0.4
+            elif fw == "v2.0":
+                fw_effect[i] = 0.2
+            else:  # v2.5, v3.0
+                fw_effect[i] = 0.0
+        logits += fw_effect
 
-        # Effect of Device_Configuration (some configs may block updates)
-        logits -= device_config * 0.5
+        # Effect of Device_Configuration (high security configs may block updates)
+        config_effect = np.zeros(n)
+        for i, cfg in enumerate(device_config):
+            if cfg == "high":
+                config_effect[i] = -0.5
+            elif cfg == "medium":
+                config_effect[i] = -0.2
+            else:  # low
+                config_effect[i] = 0.0
+        logits += config_effect
 
         # Add noise
-        logits += self.rng.normal(0, 0.3, size=len(trigger))
+        logits += self.rng.normal(0, 0.3, size=n)
 
         # Convert to probability and sample
         prob = 1 / (1 + np.exp(-logits))
@@ -156,7 +187,8 @@ class DataGenerator:
         - Firmware_Version: older firmware harder to update
         - Device_Configuration: certain configs may hinder updates
         """
-        logits = np.zeros(len(update_cmd))
+        n = len(update_cmd)
+        logits = np.zeros(n)
 
         # Base rate for when update command is given
         base_logit = 0.5
@@ -165,27 +197,39 @@ class DataGenerator:
         # But success is defined as 0 if no command was given
         logits += update_cmd * base_logit
 
-        # Effect of Network_Stability
+        # Effect of Network_Stability (continuous 0-1)
         logits += network_stability * 3.0
 
-        # Effect of Device_Resources
+        # Effect of Device_Resources (continuous 0-1)
         logits += device_resources * 2.0
 
-        # Effect of Device_Health
+        # Effect of Device_Health (continuous 0-1)
         logits += device_health * 2.5
 
-        # Effect of Firmware_Version (older = harder to update)
-        logits -= (1 - firmware_version) * 1.5
+        # Effect of Firmware_Version (categorical: older versions have lower success)
+        for i, fw in enumerate(firmware_version):
+            if fw in ["v1.0", "v1.5"]:
+                logits[i] -= 1.0  # Older firmware = harder to update
+            elif fw == "v2.0":
+                logits[i] -= 0.5
+            else:  # v2.5, v3.0
+                logits[i] -= 0.0
 
-        # Effect of Device_Configuration
-        logits -= device_config * 1.0
+        # Effect of Device_Configuration (categorical)
+        for i, cfg in enumerate(device_config):
+            if cfg == "high":
+                logits[i] -= 1.0  # High security configs hinder updates
+            elif cfg == "medium":
+                logits[i] -= 0.5
+            else:  # low
+                logits[i] -= 0.0
 
         # Interactions: e.g., good network + good resources amplifies success
         logits += (network_stability * device_resources) * 1.0
         logits += (network_stability * device_health) * 0.5
 
         # Add noise
-        logits += self.rng.normal(0, 0.4, size=len(update_cmd))
+        logits += self.rng.normal(0, 0.4, size=n)
 
         # Convert to probability
         prob = 1 / (1 + np.exp(-logits))
